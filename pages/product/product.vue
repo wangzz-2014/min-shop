@@ -2,7 +2,7 @@
 	<view class="container">
 		<!-- 商品轮播图 -->
 		<view class="carousel">
-			<u-swiper :list="productDetail.edges.goods_spu_imgs" name="img_path" mode="number" indicator-pos="bottomRight" height="722"></u-swiper>
+			<u-swiper :list="productDetail.edges.goods_spu_imgs" name="img_path" mode="number" indicator-pos="bottomRight" height="722" @click="openImage"></u-swiper>
 			<!-- 返回按钮 -->
 			<view class="back" @click="navBack"><text class="yticon icon-zuo"></text></view>
 		</view>
@@ -228,7 +228,9 @@ export default {
 			specsActive: {},
 			//商品规格id
 			option_ids:[],
-			activeSku:{}
+			activeSku:{},
+			urls:[],
+			current:0
 		};
 	},
 
@@ -238,10 +240,31 @@ export default {
 		
 	},
 	methods: {
+		openImage(index){
+			this.current = index
+			// 预览图片
+			uni.previewImage({
+				urls: this.urls,
+				current:this.current,
+				longPressActions: {
+					itemList: ['发送给朋友', '保存图片', '收藏'],
+					success: function(data) {
+						console.log(data)
+					},
+					fail: function(err) {
+						console.log(err.errMsg);
+					}
+				},
+				complete: (res) => {
+					console.log(res)
+				}
+			});
+		},
 		async getProductDetail() {
 			let res = await this.$u.api.getProductByIdDetail({ id: this.productId });
 			if (res.code === 200) {
 				this.productDetail = res.data;
+				this.urls = this.productDetail.edges.goods_spu_imgs.map(item=>(item.img_path))
 				if (res.data.is_custom_sku) {
 					this.specs = res.data.specs;
 					this.specs.forEach((item, index) => {
