@@ -1,0 +1,1 @@
+<view class="cateList data-v-c195e038" cateList="{{cateList}}"><block wx:for="{{cateList}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view class="cate-item data-v-c195e038"><image src="{{item.image}}" class="data-v-c195e038"></image><text class="data-v-c195e038">{{item.title}}</text></view></block></view>

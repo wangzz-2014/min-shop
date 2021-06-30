@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "详情展示",
+  "enablePullDownRefresh": false,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-swiper": "/node-modules/uview-ui/components/u-swiper/u-swiper",
+    "u-parse": "/node-modules/uview-ui/components/u-parse/u-parse",
+    "add-cart-buy": "/components/add-cart-buy/add-cart-buy",
+    "u-popup": "/node-modules/uview-ui/components/u-popup/u-popup"
+  }
+}
