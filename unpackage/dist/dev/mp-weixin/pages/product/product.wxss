@@ -423,6 +423,9 @@ page {
   background: #fbebee;
   color: #fa436a;
 }
+.item-list .selected-disable {
+  opacity: .6;
+}
 .btn {
   position: fixed;
   left: 0;
