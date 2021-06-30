@@ -20,6 +20,14 @@ const install = (Vue, vm) => {
 	api.getProductByIdDetail = id => vm.$u.get('api/goods/get',id)
 	//获取商品sku
 	api.getSku = params => vm.$u.post('api/goods/get_sku',params)
+	//获取商品分类
+	api.getCategory = id => {
+		if(id){
+			return vm.$u.get('api/goods/classify/?id='+id)
+		}else{
+			return vm.$u.get('api/goods/classify')
+		}
+	}
 	// 将各个定义的接口名称，统一放进对象挂载到vm.$u.api(因为vm就是this，也即this.$u.api)下
 	vm.$u.api = api
 }

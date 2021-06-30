@@ -1,15 +1,15 @@
 <template>
 	<view class="content">
 		<scroll-view scroll-y class="left-aside">
-			<view class="f-item b-b" v-for="(item,index) in flist" @click="tabtap(item)" :key="item.id" :class="{active:item.id === currentId}">{{item.name}}</view>
+			<view class="f-item b-b" v-for="(item,index) in flist" @click="tabtap(item)" :key="item.id" :class="{active:item.id === currentId}">{{item.classify_name}}</view>
 		</scroll-view>
-		<scroll-view scroll-y class="right-aside" scroll-with-animation @scroll="asideScroll" :scroll-top="tabScrollTop">
-			<view class="s-list" v-for="item in slist" :key="item.id" :id="'main-'+item.id">
-				<text class="s-item">{{item.name}}</text>
+		<scroll-view scroll-y class="right-aside" scroll-with-animation  :scroll-top="tabScrollTop">
+			<view class="s-list" v-for="(sitem,index) in slist" :key="sitem.id" :id="'main-'+sitem.id">
+				<text class="s-item">{{sitem.classify_name}}</text>
 				<view class="t-list">
-					<view class="t-item" v-for="titem in tlist" :key="titem.id" @click="navToList(item.id,titem.id)" v-if="titem.id===item.id">
-						<image :src="titem.picture"/>
-						<text>{{titem.name}}</text>
+					<view class="t-item" v-for="titem in sitem.children" :key="titem.id" @click="navToList(titem.id)" v-if="titem.pid === sitem.id">
+						<image :src="titem.icon"/>
+						<text>{{titem.classify_name}}</text>
 					</view>
 				</view>
 			</view>
@@ -24,28 +24,80 @@
 				tabScrollTop:0,
 				flist:[],
 				slist:[],
-				tlist:[],
-				currentId:1
+				currentId:1,
+				id:'',
+				sizeCalcState:false
 			}
 		},
+		onLoad() {
+			this.getCategory()
+		},
 		methods: {
+			async getCategory(){
+				try{
+					let res = await this.$u.api.getCategory()
+					this.flist = res.data
+					this.id = this.flist[0].id
+					this.getTwoCategory()
+				}catch(e){
+					//TODO handle the exception
+					if(res.code>=400 || ress.code>= 400){
+						console.log(e)
+						return 
+					}
+				}
+			},
+			//获取二级分类
+			async getTwoCategory(){
+				let ress = await this.$u.api.getCategory(this.id)
+				this.slist = ress.data
+			},
+			tabtap(item){
+				this.currentId = item.id
+				this.id = item.id
+				this.getTwoCategory()
+				let index = this.slist.findIndex(sitem=>sitem.pid===item.id)
+				this.tabScrollTop = 0
+			},
+			//跳转到商品列表页面
+			navToList(id){
+				uni.navigateTo({
+					url:'/pages/product/productList?id='+id
+				})
+			}
+			//计算右侧栏每个tab的高度
+			// calcSize(){
+			// 	let h = 0
+			// 	this.slist.forEach(item=>{
+			// 		let view = uni.createSelectorQuery().select("#main-"+item.id)
+			// 		view.fields({
+			// 			size:true
+			// 		},data=>{
+			// 			item.top = h
+			// 			h+=data.height
+			// 			item.bottom=h
+			// 		}).exec()
+			// 	})
+			// 	this.sizeCalcState = true
+			// }
 			
 		}
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 page,.content{
 	height: 100%;
-	background-color: #f8f8f8;
 }
 .content{
+	background-color: #f8f8f8;
 	display: flex;
 }
 .left-aside{
 	flex-shrink: 0;
 	width: 200upx;
 	height: 100%;
+	min-height: 100vh;
 	background-color: #fff;
 }
 .f-item{
@@ -78,6 +130,7 @@ page,.content{
 	flex: 1;
 	overflow: hidden;
 	padding-left: 20upx;
+	height: 100vh;
 }
 .s-item{
 	display: flex;
