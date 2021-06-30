@@ -1,4 +1,4 @@
 /node_modules/
 /.hbuilderx/
 yarn.lock
-/unpackage/
+unpackage
