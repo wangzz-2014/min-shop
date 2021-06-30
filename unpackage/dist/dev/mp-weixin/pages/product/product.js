@@ -129,6 +129,20 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 =
+    _vm.productDetail.is_custom_sku && _vm.specsTextShow
+      ? Object.keys(_vm.specsActive)
+      : null
+  var l1 = _vm.specsTextShow ? Object.keys(_vm.specsActive) : null
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0,
+        l1: l1
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -350,6 +364,63 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     addCartBuy: addCartBuy },
@@ -357,9 +428,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       style: {
-        img: 'display:block;' },
+        img: "display:block;" },
 
-      productId: '',
+      productId: "",
       serviceShow: false,
       shareShow: false,
       specShow: false,
@@ -367,102 +438,165 @@ __webpack_require__.r(__webpack_exports__);
       productDetail: {},
       //商品规格
       specs: [],
+      // sku列表
+      skus: [],
       shareList: [
       {
         type: 1,
-        icon: '/static/temp/share_wechat.png',
-        text: '微信好友' },
+        icon: "/static/temp/share_wechat.png",
+        text: "微信好友" },
 
       {
         type: 2,
-        icon: '/static/temp/share_moment.png',
-        text: '朋友圈' },
+        icon: "/static/temp/share_moment.png",
+        text: "朋友圈" },
 
       {
         type: 3,
-        icon: '/static/temp/share_qq.png',
-        text: 'QQ好友' },
+        icon: "/static/temp/share_qq.png",
+        text: "QQ好友" },
 
       {
         type: 4,
-        icon: '/static/temp/share_qqzone.png',
-        text: 'QQ空间' }],
+        icon: "/static/temp/share_qqzone.png",
+        text: "QQ空间" }],
 
 
       specsActive: {},
-      //商品规格id
-      option_ids: [],
-      activeSku: {},
-      urls: [],
-      current: 0 };
+      // 是否展示已选规格
+      specsTextShow: false,
+      activeSku: {} };
 
   },
 
   onLoad: function onLoad(options) {
     this.productId = options.id;
     this.getProductDetail();
-
   },
   methods: {
-    openImage: function openImage(index) {
-      this.current = index;
-      // 预览图片
-      uni.previewImage({
-        urls: this.urls,
-        current: this.current,
-        longPressActions: {
-          itemList: ['发送给朋友', '保存图片', '收藏'],
-          success: function success(data) {
-            console.log(data);
-          },
-          fail: function fail(err) {
-            console.log(err.errMsg);
-          } },
-
-        complete: function complete(res) {
-          console.log(res);
-        } });
-
-    },
     getProductDetail: function getProductDetail() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
-                  _this.$u.api.getProductByIdDetail({ id: _this.productId }));case 2:res = _context.sent;
+                  _this.$u.api.getProductByIdDetail({
+                    id: _this.productId }));case 2:res = _context.sent;
+
                 if (res.code === 200) {
                   _this.productDetail = res.data;
-                  _this.urls = _this.productDetail.edges.goods_spu_imgs.map(function (item) {return item.img_path;});
+                  //  如果是多sku商品
                   if (res.data.is_custom_sku) {
-                    _this.specs = res.data.specs;
-                    _this.specs.forEach(function (item, index) {
-                      _this.specsActive[index] = 0;
+                    // 初始化所有的选项
+                    res.data.specs.forEach(function (item) {
+                      console.log(item.id);
+                      _this.$set(_this.specsActive, item.id, "");
                     });
-                    _this.getOptions();
-                    _this.getSku();
+                    // 处理所有的sku
+                    _this.skus = res.data.edges.goods_sku.map(function (item) {
+                      return {
+                        id: item.id,
+                        specs: item.edges.goods_specs_option.map(function (s_item) {
+                          return {
+                            id: s_item.id,
+                            name: s_item.specs_option_value };
+
+                        }) };
+
+                    });
+                    // 处理所有的specs
+                    /**
+                    [
+                    {
+                    id:1,
+                    title:颜色,
+                    list:[
+                    {
+                     id:2,
+                     name:"红色",
+                     able:true //是否可以点击
+                    }
+                    ]
+                    }
+                    ]
+                    */
+                    _this.specs = res.data.specs.map(function (item) {
+                      return {
+                        title: item.specs_name,
+                        id: item.id,
+                        list: item.edges.goods_specs_option.map(function (s_item) {return {
+                            able: _this.isAble(item.id, s_item),
+                            name: s_item.specs_option_value,
+                            id: s_item.id };}) };
+
+
+                    });
+                    // Object.keys(specsActive).every(item => item!=null&&item!="")
                   }
                 }case 4:case "end":return _context.stop();}}}, _callee);}))();
     },
-    getOptions: function getOptions() {var _this2 = this;
-      var options = Object.keys(this.specsActive).map(function (index) {return _this2.specs[index].edges.goods_specs_option[_this2.specsActive[index]].id;});
-      this.option_ids = options;
+    // 核心函数
+    // 大类的id 选项组
+    isAble: function isAble(specs_id, option) {
+      // 获取当前选项
+      var copySelectSpec = JSON.parse(JSON.stringify(this.specsActive));
+      copySelectSpec[specs_id] = option;
+      var specLen = Object.keys(this.specsActive).length;
+      // 遍历商品sku
+      var flag = this.skus.some(function (item) {
+        // 条件判断 核心逻辑判断
+        var i = 0;
+        // 循环遍历 当前所有值
+        var _loop = function _loop(k) {
+          if (copySelectSpec[k] == "") {
+            i++;
+          } else if (
+          item.specs.findIndex(
+          function (s_spec) {return s_spec.id == copySelectSpec[k].id;}) >
+          -1)
+          {
+            i++;
+          }};for (var k in copySelectSpec) {_loop(k);
+        }
+        return i == specLen;
+      });
+      return flag;
     },
-    selectSpec: function selectSpec(index, sIndex) {
+    selectSpec: function selectSpec(key, val) {var _this2 = this;
+      // 过滤掉被禁用的
+      if (!val.able) return;
       var specsActive = this.specsActive;
-      specsActive[index] = sIndex;
+      // 如果次元素已经选中
+      if (specsActive[key] && specsActive[key].id == val.id) {
+        specsActive[key] = "";
+      } else {
+        specsActive[key] = val;
+      }
       this.specsActive = JSON.parse(JSON.stringify(specsActive));
-      this.getOptions();
-      this.getSku();
+      this.specs.forEach(function (item) {
+        item.list.forEach(function (its) {
+          its.able = _this2.isAble(item.id, its);
+        });
+      });
+      if (Object.keys(this.specsActive).every(function (key) {return _this2.specsActive[key];})) {
+        this.specsTextShow = true;
+        this.getSku();
+      } else {
+        this.specsTextShow = false;
+        this.activeSku = "";
+      }
     },
     getSku: function getSku() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
                 _this3.productId = parseInt(_this3.productId);_context2.prev = 1;_context2.next = 4;return (
 
-                  _this3.$u.api.getSku({ id: _this3.productId, option_ids: _this3.option_ids }));case 4:res = _context2.sent;
+                  _this3.$u.api.getSku({
+                    id: _this3.productId,
+                    // 遍历循环处理
+                    option_ids: Object.keys(_this3.specsActive).map(function (key) {
+                      return _this3.specsActive[key]["id"];
+                    }) }));case 4:res = _context2.sent;
+
                 _this3.activeSku = res.data;_context2.next = 13;break;case 8:_context2.prev = 8;_context2.t0 = _context2["catch"](1);if (!(
 
                 _context2.t0.data.code >= 400)) {_context2.next = 13;break;}
                 uni.showToast({
-                  title: '所选商品不存在',
+                  title: "所选商品不存在",
                   icon: "none" });return _context2.abrupt("return");case 13:case "end":return _context2.stop();}}}, _callee2, null, [[1, 8]]);}))();
-
-
-
 
 
 
@@ -479,7 +613,6 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.specShow = true;
       }
-
     },
     toggleService: function toggleService() {
       this.serviceShow = true;

@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "收货地址",
-  "enablePullDownRefresh": true,
-  "usingComponents": {
-    "u-swipe-action": "/node-modules/uview-ui/components/u-swipe-action/u-swipe-action",
-    "u-loadmore": "/node-modules/uview-ui/components/u-loadmore/u-loadmore"
-  }
-}
