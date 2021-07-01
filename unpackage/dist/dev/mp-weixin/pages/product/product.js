@@ -96,16 +96,16 @@ var components
 try {
   components = {
     uSwiper: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-swiper/u-swiper */ "node-modules/uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! uview-ui/components/u-swiper/u-swiper.vue */ 354))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-swiper/u-swiper */ "node-modules/uview-ui/components/u-swiper/u-swiper").then(__webpack_require__.bind(null, /*! uview-ui/components/u-swiper/u-swiper.vue */ 356))
     },
     uParse: function() {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-parse/u-parse */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-parse/u-parse")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-parse/u-parse.vue */ 361))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-parse/u-parse */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-parse/u-parse")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-parse/u-parse.vue */ 363))
     },
     addCartBuy: function() {
-      return __webpack_require__.e(/*! import() | components/add-cart-buy/add-cart-buy */ "components/add-cart-buy/add-cart-buy").then(__webpack_require__.bind(null, /*! @/components/add-cart-buy/add-cart-buy.vue */ 371))
+      return __webpack_require__.e(/*! import() | components/add-cart-buy/add-cart-buy */ "components/add-cart-buy/add-cart-buy").then(__webpack_require__.bind(null, /*! @/components/add-cart-buy/add-cart-buy.vue */ 373))
     },
     uPopup: function() {
-      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-popup/u-popup */ "node-modules/uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! uview-ui/components/u-popup/u-popup.vue */ 378))
+      return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-popup/u-popup */ "node-modules/uview-ui/components/u-popup/u-popup").then(__webpack_require__.bind(null, /*! uview-ui/components/u-popup/u-popup.vue */ 380))
     }
   }
 } catch (e) {
@@ -176,7 +176,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 8));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var addCartBuy = function addCartBuy() {__webpack_require__.e(/*! require.ensure | components/add-cart-buy/add-cart-buy */ "components/add-cart-buy/add-cart-buy").then((function () {return resolve(__webpack_require__(/*! @/components/add-cart-buy/add-cart-buy.vue */ 371));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 8));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var addCartBuy = function addCartBuy() {__webpack_require__.e(/*! require.ensure | components/add-cart-buy/add-cart-buy */ "components/add-cart-buy/add-cart-buy").then((function () {return resolve(__webpack_require__(/*! @/components/add-cart-buy/add-cart-buy.vue */ 373));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -465,7 +465,8 @@ __webpack_require__.r(__webpack_exports__);
       specsActive: {},
       // 是否展示已选规格
       specsTextShow: false,
-      activeSku: {} };
+      activeSku: {},
+      cart: [] };
 
   },
 
@@ -484,7 +485,6 @@ __webpack_require__.r(__webpack_exports__);
                   if (res.data.is_custom_sku) {
                     // 初始化所有的选项
                     res.data.specs.forEach(function (item) {
-                      console.log(item.id);
                       _this.$set(_this.specsActive, item.id, "");
                     });
                     // 处理所有的sku
@@ -623,8 +623,37 @@ __webpack_require__.r(__webpack_exports__);
     toggleMask: function toggleMask() {
       this.shareShow = false;
     },
-    addCart: function addCart() {
-      console.log(111);
+    addCart: function addCart(product) {var _this4 = this;
+
+      if (uni.getStorageSync('cart')) {
+        this.cart = uni.getStorageSync('cart');
+      }
+      var index = this.cart.findIndex(function (cartItem) {return cartItem.id === product.id;});
+      if (index > -1) {
+        this.cart[index].count += 1;
+      } else {
+        if (product.is_custom_sku) {
+          this.cart.push({
+            id: product.id,
+            count: 1,
+            spu_name: product.product,
+            price: this.activeSku.price,
+            image: product.spu_head_img,
+            stock_num: product.stock_num });
+
+
+        } else {
+          this.activeSku = product.sku;
+          this.cart.push({});
+
+
+        }
+
+      }
+      this.cart = Array.from(new Set(this.cart.map(function (item) {return item.id;}))).map(function (item) {return (
+          _this4.cart.find(function (items) {return items.id === item;}));});
+
+      uni.setStorageSync('cart', JSON.stringify(this.cart));
     },
     buy: function buy() {
       console.log(222);

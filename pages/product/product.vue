@@ -21,12 +21,12 @@
       <view class="price-box">
         <text class="price-tip">￥</text>
         <text class="price">{{
-          specsTextShow ? activeSku.price : productDetail.show_price
+          specsTextShow ? activeSku.price/100 : productDetail.show_price
         }}</text>
       </view>
       <view class="bot-row">
-        <text>销量：108</text>
-        <text>库存：{{ specsTextShow ? activeSku.price : 0 }}</text>
+        <text>销量：{{specsTextShow ? (activeSku.sales_num || 0) : (productDetail.sales_num || 0 )}}</text>
+        <text>库存：{{ specsTextShow ? (activeSku.stock_num || 0) : (productDetail.stock_num || 0 ) }}</text>
         <text>浏览量：768</text>
       </view>
     </view>
@@ -124,7 +124,7 @@
     </view>
 
     <!-- 操作菜单 -->
-    <add-cart-buy @listenAddCart="addCart" @listenBuy="buy" />
+    <add-cart-buy @listenAddCart="addCart(productDetail)" @listenBuy="buy(productDetail)" />
 
     <!-- 规格弹出层 -->
     <u-popup
@@ -143,10 +143,10 @@
               >￥{{
                 activeSku.price === undefined
                   ? productDetail.show_price
-                  : activeSku.price
+                  : activeSku.price/100
               }}</text
             >
-            <text class="stock">库存：{{ activeSku.stock || "" }}件</text>
+            <text class="stock">库存：{{ specsTextShow ? (activeSku.stock_num || 0) : (productDetail.stock_num || 0 )}}件</text>
             <view class="selected">
               已选：
               <block v-if="specsTextShow">
@@ -288,6 +288,7 @@ export default {
       // 是否展示已选规格
       specsTextShow: false,
       activeSku: {},
+	  cart:[]
     };
   },
 
@@ -306,7 +307,6 @@ export default {
         if (res.data.is_custom_sku) {
           // 初始化所有的选项
           res.data.specs.forEach((item) => {
-            console.log(item.id);
             this.$set(this.specsActive, item.id, "");
           });
           // 处理所有的sku
@@ -445,8 +445,37 @@ export default {
     toggleMask() {
       this.shareShow = false;
     },
-    addCart() {
-      console.log(111);
+    addCart(product) {
+		
+      if(uni.getStorageSync('cart')){
+		  this.cart = uni.getStorageSync('cart')
+	  }
+	  let index = this.cart.findIndex(cartItem=>cartItem.id === product.id)
+	  if(index>-1){
+		  this.cart[index].count += 1
+	  }else{
+		  if(product.is_custom_sku){
+		  	this.cart.push({
+				id:product.id,
+				count:1,
+				spu_name:product.product,
+				price:this.activeSku.price,
+				image:product.spu_head_img,
+				stock_num:product.stock_num,
+				
+		  	})
+		  }else{
+			this.activeSku = product.sku
+			this.cart.push({
+			 
+			})  
+		  }
+		  
+	  }
+	  this.cart = Array.from(new Set(this.cart.map(item=>item.id))).map(item=>(
+	this.cart.find(items=>items.id===item)  
+	  ))
+	  uni.setStorageSync('cart',JSON.stringify(this.cart))
     },
     buy() {
       console.log(222);
@@ -473,7 +502,7 @@ page {
 
   .back {
     position: absolute;
-    top: 40upx;
+    top: 50upx;
     left: 40upx;
     width: 60upx;
     height: 60upx;
