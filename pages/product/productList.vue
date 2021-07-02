@@ -41,10 +41,13 @@
 				filterIndex:0,
 				//价格索引 , 1 正序  2 倒叙 
 				priceOrder:0,
-				filterType:'multiple'
+				filterType:'multiple',
+				categoryId:''
 			};
 		},
-		onLoad() {
+		onLoad(options) {
+			console.log(options,111)
+			this.categoryId = options.id
 			this.getProductList()
 		},
 		onPullDownRefresh() {
@@ -71,8 +74,7 @@
 		},
 		methods:{
 			async getProductList(){
-				let res = await this.$u.api.getGoodsList(this.pageOptions,this.filterType)
-				console.log(res,111)
+				let res = await this.$u.api.getGoodsList(this.pageOptions,this.filterType,this.categoryId)
 				this.status = 'nomore'
 				let goodsArr = res.data.data
 				if(this.pageOptions.page===1){
