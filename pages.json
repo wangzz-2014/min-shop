@@ -77,6 +77,15 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "商品列表",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/search/search",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "商品搜索",
                 "enablePullDownRefresh": false
             }
             

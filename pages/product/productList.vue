@@ -1,13 +1,13 @@
 <template>
 	<view class="content">
 		<view class="navBar">
-			<view class="nav-item" @click="tabClick(0)" >综合排序</view>
-			<view class="nav-item" @click="tabClick(1)" >销量优先</view>
-			<view class="nav-item three" @click="tabClick(2)" >
+			<view class="nav-item" :class="{current:filterIndex ===0}" @click="tabClick(0)" >综合排序</view>
+			<view class="nav-item" :class="{current:filterIndex ===1}" @click="tabClick(1)" >销量优先</view>
+			<view class="nav-item three" :class="{current:filterIndex === 2}" @click="tabClick(2)" >
 				<text>价格</text>
 				<view class="p-box">
-					<text  class="yticon icon-shang"></text>
-					<text  class="yticon xia icon-shang"></text>
+					<text :class="{active:filterIndex === 2 && priceOrder === 1}" class="yticon icon-shang"></text>
+					<text :class="{active:filterIndex === 2 && priceOrder === 2}" class="yticon xia icon-shang"></text>
 				</view>
 			</view>
 		</view>
@@ -36,7 +36,12 @@
 				},
 				total:0,
 				pageSize:0,
-				status:'loadmore'
+				status:'loadmore',
+				//分类索引，默认是0 综合排序
+				filterIndex:0,
+				//价格索引 , 1 正序  2 倒叙 
+				priceOrder:0,
+				filterType:'multiple'
 			};
 		},
 		onLoad() {
@@ -66,7 +71,8 @@
 		},
 		methods:{
 			async getProductList(){
-				let res = await this.$u.api.getGoodsList(this.pageOptions)
+				let res = await this.$u.api.getGoodsList(this.pageOptions,this.filterType)
+				console.log(res,111)
 				this.status = 'nomore'
 				let goodsArr = res.data.data
 				if(this.pageOptions.page===1){
@@ -77,7 +83,26 @@
 				this.total = res.data.total
 			},
 			tabClick(index){
-				console.log(index)
+				this.filterType = 'multiple'
+				this.filterIndex = index
+				if(index===1){
+					this.filterType = 'sales_desc'
+				}else if(index === 2){
+					this.priceOrder = this.priceOrder === 1 ? 2 : 1
+					if(this.priceOrder === 1){
+						this.filterType = 'price_asc'
+					}
+					if(this.priceOrder === 2){
+						this.filterType = 'price_desc'
+					}
+				}else{
+					this.priceOrder = 0
+				}
+				this.pageOptions = {
+					page:1,
+					size:10
+				}
+				this.getProductList()
 			}
 		}
 	}
