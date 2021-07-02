@@ -32,6 +32,7 @@ page,content{
 	height: 100%;
 }
 .content{
+	padding: 20upx 30upx;
 	display: flex;
 	flex-direction: column;
 }
