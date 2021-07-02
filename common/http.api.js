@@ -29,7 +29,7 @@ const install = (Vue, vm) => {
 	//获取商品分类
 	api.getCategory = id => {
 		if(id){
-			return vm.$u.get('api/goods/classify/?id='+id)
+			return vm.$u.get('api/goods/classify?id='+id)
 		}else{
 			return vm.$u.get('api/goods/classify')
 		}

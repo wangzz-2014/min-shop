@@ -30,6 +30,13 @@ const install = (Vue, vm) => {
 		const jwt_data = uni.getStorageSync("jwt_data")
 		config.header.Authorization = "Bearer " + jwt_data.token
 		config.header.Accept = "application/json"
+		
+		if(config.url.indexOf("?")>-1){
+			config.url += `&`
+		}else{
+			config.url += `?`
+		}
+		config.url += `time=${new Date().getTime()}`
 		// 方式一，存放在vuex的token，假设使用了uView封装的vuex方式
 		// 见：https://uviewui.com/components/globalVariable.html
 		// config.header.token = vm.token;
