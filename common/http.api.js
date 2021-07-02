@@ -15,12 +15,17 @@ const install = (Vue, vm) => {
 	api.getSwiper = params => vm.$u.get('api/banner/list/1')
 	
 	//获取商品列表
-	api.getGoodsList = (params,sort) => {
-		if(sort){
-			return vm.$u.get('api/goods/list?sort='+sort,params)
+	api.getGoodsList = (params,sort,classify_id) => {
+		if(classify_id){
+			if(sort){
+				return vm.$u.get('api/goods/list?classify_id='+classify_id+'&sort='+sort,params)
+			}else{
+				return vm.$u.get('api/goods/list?classify_id='+classify_id,params)
+			}
 		}else{
 			return vm.$u.get('api/goods/list',params)
-		}
+		} 
+		
 	}
 	//获取商品详情
 	api.getProductByIdDetail = id => vm.$u.get('api/goods/get',id)
