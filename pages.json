@@ -90,6 +90,41 @@
             }
             
         }
+        ,{
+            "path" : "pages/order/order",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的订单",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+		,{
+            "path" : "pages/order/createOrder",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "填写订单",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/pay/pay",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "支付",
+                "enablePullDownRefresh": false
+            }
+            
+        },{
+            "path" : "pages/pay/payStatus",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "支付结果",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -24,6 +24,9 @@
 
 <style lang="scss">
 	@import  'uview-ui/index.scss';
+	page{
+		min-height:100vh ;
+	}
 	/*每个页面公共css */
 @font-face {
 		font-family: yticon;

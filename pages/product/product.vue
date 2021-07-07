@@ -401,9 +401,9 @@ export default {
 			this.shareShow = false;
 		},
 		addCart(product) {
-			
 			let sku = product.sku;
 			if (product.is_custom_sku) {
+				// 多规格商品
 				if (JSON.stringify(this.activeSku) == '{}') {
 					uni.showToast({
 						title: '请选择商品规格',
@@ -413,6 +413,9 @@ export default {
 				} else {
 					sku = this.activeSku;
 				}
+			}else{
+				// 不是多规格商品时
+				sku = product.sku
 			}
 			let index = this.cart.findIndex(item => {
 				return item.id === sku.id;
@@ -425,7 +428,7 @@ export default {
 					id: sku.id,
 					count: 1,
 					spu_name:product.spu_name,
-					price: this.activeSku.price,
+					price: sku.price,
 					image: product.spu_head_img,
 					stock_num: product.stock_num,
 					sku_name:product.is_custom_sku?this.activeSku.edges.goods_specs_option.map(item => item.specs_option_value).join(' '):''

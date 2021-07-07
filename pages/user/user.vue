@@ -41,15 +41,15 @@
 			
 			<!-- 订单 -->
 			<view class="order-section">
-				<view class="order-item">
+				<view class="order-item" @click="navTo('/pages/order/order?status=0')">
 					<text class="yticon icon-shouye"></text>
 					<text>全部订单</text>
 				</view>
-				<view class="order-item">
+				<view class="order-item" @click="navTo('/pages/order/order?status=1')">
 					<text class="yticon icon-daifukuan"></text>
 					<text>待付款</text>
 				</view>
-				<view class="order-item">
+				<view class="order-item" @click="navTo('/pages/order/order?status=2')">
 					<text class="yticon icon-yishouhuo"></text>
 					<text>待收货</text>
 				</view>

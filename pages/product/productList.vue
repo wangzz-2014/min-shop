@@ -42,12 +42,13 @@
 				//价格索引 , 1 正序  2 倒叙 
 				priceOrder:0,
 				filterType:'multiple',
-				categoryId:''
+				categoryId:'',
+				spu_name:''
 			};
 		},
 		onLoad(options) {
-			console.log(options,111)
 			this.categoryId = options.id
+			this.spu_name = options.spu_name
 			this.getProductList()
 		},
 		onPullDownRefresh() {
@@ -74,7 +75,7 @@
 		},
 		methods:{
 			async getProductList(){
-				let res = await this.$u.api.getGoodsList(this.pageOptions,this.filterType,this.categoryId)
+				let res = await this.$u.api.getGoodsList(this.pageOptions,this.filterType,this.categoryId,this.spu_name)
 				this.status = 'nomore'
 				let goodsArr = res.data.data
 				if(this.pageOptions.page===1){
@@ -113,6 +114,7 @@
 <style lang="scss" scoped>
 page,.content{
 	background: #f8f8f8;
+	min-height: 100vh;
 }
 .content{
 	padding-top: 96upx;

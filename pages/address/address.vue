@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { backSetData } from '@/utils/utils.js'
 export default {
 	data() {
 		return {
@@ -52,7 +53,9 @@ export default {
 			status: 'loadmore',
 		};
 	},
-
+	onLoad(options) {
+		this.source = options.source
+	},
 	onPullDownRefresh() {
 		this.addressList = [];
 		this.pageOptions = {
@@ -111,8 +114,9 @@ export default {
 		checkAddress(item) {
 			if (this.source == 1) {
 				//this.$api.prePage()获取上一页实例，在APP.vue定义
-				this.$api.prePage().addressData = item;
-				uni.navigateBack();
+				// this.$api.prePage().addressData = item;
+				// uni.navigateBack();
+				backSetData(item,"active_address")
 			}
 		},
 		addAddress(type, item) {
@@ -123,7 +127,7 @@ export default {
 		//添加或修改成功后的回调
 		async getaddressList() {
 			let res = await this.$u.api.getaddressList(this.pageOptions);
-			this.status = 'loading';
+			this.status = 'nomore';
 			let addresslist = res.data.data.map(item => ({
 				...item,
 				address: item.province + item.city + item.area,
