@@ -9,7 +9,7 @@ const install = (Vue, vm) => {
 		// // #endif
 		// #ifndef H5
 		// baseUrl: 'http://192.168.3.108:8089', // 拉勾服务器
-		baseUrl: "http://192.168.3.108:8088",
+		baseUrl: "http://127.0.0.1:8088",
 		// baseUrl: 'http://47.115.83.135/api/v2', // 教学服务器
 		// #endif
 		loadingText: '努力加载中~', // 请求loading中的文字提示
