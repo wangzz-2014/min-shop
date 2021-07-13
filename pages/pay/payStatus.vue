@@ -9,7 +9,7 @@
 		
 		<!-- 页面跳转 -->
 		<view class="jump">
-			<navigator url="/pages/order/order?status=0" open-type="redirect" class="mix-btn">查看订单</navigator>
+			<navigator :url="'/pages/order/order?status='+status" open-type="redirect" class="mix-btn">查看订单</navigator>
 			<navigator url="/pages/index/index" open-type="switchTab" class="mix-btn gotoIndex">返回首页</navigator>
 		</view>
 	</view>
@@ -19,7 +19,8 @@
 	export default{
 		data(){
 			return {
-				payStatus:false
+				payStatus:false,
+				status:0
 			}
 		},
 		onLoad(options) {
@@ -30,11 +31,13 @@
 				uni.setNavigationBarTitle({
 				    title: '支付成功'
 				});
+				this.status = 2
 			}else{
 				this.payStatus = false
 				uni.setNavigationBarTitle({
 				    title: '支付失败'
 				});
+				this.status = 1
 			}
 		},
 		methods:{

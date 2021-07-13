@@ -49,10 +49,19 @@ const install = (Vue, vm) => {
 	api.createOrder = params => vm.$u.post('api/order/create',params)
 	//轮询订单状态
 	api.orderStatus = params => vm.$u.post('api/order/state',params)
-	
+	//获取订单列表
+	api.getOrderList = params => vm.$u.get('api/order/list',params)
+	//删除已取消订单
+	api.delOrder = params => vm.$u.delete('api/order/del_cancel_order',params)
+	//取消订单
+	api.cancelOrder = params => vm.$u.post('api/order/cancel_order',params)
+	//获取订单详情
+	api.getOrderInfo = params => vm.$u.get('api/order/info',params)
 	
 	//支付
 	api.wechatPay = params => vm.$u.post('api/pay/wechat_pay/create',params)
+	
+	
 	// 将各个定义的接口名称，统一放进对象挂载到vm.$u.api(因为vm就是this，也即this.$u.api)下
 	vm.$u.api = api
 }

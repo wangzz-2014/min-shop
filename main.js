@@ -9,6 +9,10 @@ import Moment from 'moment'
 Vue.filter('formatDate', function(value) {
   return Moment(value).format('YYYY[年]MM[月]DD[日]')
 })
+//年月日时分秒时间过滤器
+Vue.filter('formatDateTime',function(value){
+	return Moment(value).format('YYYY-MM-DD HH:mm:ss')
+})
 const msg = (title, duration=1500, mask=false, icon='none')=>{
 	//统一提示方便全局修改
 	if(Boolean(title) === false){

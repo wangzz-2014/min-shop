@@ -95,7 +95,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "我的订单",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }
@@ -108,6 +108,15 @@
             }
             
         }
+		,{
+		    "path" : "pages/order/orderDetail",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "订单详情",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
         ,{
             "path" : "pages/pay/pay",
             "style" :                                                                                    
