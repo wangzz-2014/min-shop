@@ -1,13 +1,27 @@
-const baseUrl = 'https://api.ahh5.com/go_shop'
+/**
+ * 公共请求方法
+ * @param {Object} options
+ * @param {String} options.baseUrl 请求地址前缀
+ * @param {String} options.modulesPath 模块名字(一般情况无需修改)
+ * @param {String} options.url 接口地址
+ * @param {String} options.method 请求方式 GET|POST|PUT|DELETE
+ * @param {String} options.baseUrl 请求地址前缀
+ * @param {String} options.baseUrl 请求地址前缀
+ * @param {Boolean} options.isTakeOverControl 是否接管处理
+ * @param {Boolean} options.isNoToken 是否去除需要token
+ * @param {Boolean} options.isNoEncrypt 是否去除加密信息
+ * @param {Boolean} options.isShowToast 是否展示错误信息
+ */
 export const request = async ({
-	baseUrl = baseUrl,
+	baseUrl = 'https://api.ahh5.com/go_shop',
 	url,
 	method = 'GET',
 	data = {},
 	params = {},
 	header = {},
 	contentType = 'application/json',
-	isNoToken = false
+	isTakeOverControl = false,
+	isNoToken = false,
 	isShowToast = true,
 }) => {
 	let requestDate = new Date().getTime()
@@ -17,7 +31,7 @@ export const request = async ({
 			...(isNoToken ? {} : {
 				token:uni.getStorageSync('jwt_data').token
 			}),
-		})
+		}),
 		data:data,
 		header:{
 			'content-type':contentType,
@@ -46,13 +60,13 @@ export const request = async ({
 	
 	options.url = options.url.replace(/\?$/,'')
 	try{
-		const {code,data} = promiseFn(uni.request)(options)
+		const {code,data} = await promiseFn(uni.request)(options)
 		if(code > 400) throw{
 			message:'服务器异常'
 		}
-		
+		return data
 	}catch(e){
-		//TODO handle the exception
+		 throw e
 	}
 }
 

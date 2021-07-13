@@ -25,6 +25,7 @@
 	import cate from '@/components/cate/cate.vue'
 	import titleHeader from '@/components/title-header/title-header.vue'
 	import product from '@/components/product/product.vue'
+	import {getSwiper,getGoodsList} from '@/common/request.js'
 	export default {
 		data() {
 			return {
@@ -110,11 +111,12 @@
 		},
 		methods: {
 			async getSwiperList() {
-				let res = await this.$u.api.getSwiper()
+				let res = await getSwiper()
+				console.log(res,'轮播图')
 				this.swiperList = res.data
 			},
 			async getProductList() {
-				let res = await this.$u.api.getGoodsList(this.pageOptions)
+				let res = await getGoodsList(this.pageOptions)
 				this.status = 'nomore'
 				let goodsArr = res.data.data
 				if (this.pageOptions.page === 1) {
