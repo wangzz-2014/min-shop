@@ -5,35 +5,41 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-	state:{
-		loginState:uni.getStorageSync('loginState') === 'ok' ? true : false,
-		userInfo:uni.getStorageSync('userInfo') ? JSON.parse(uni.getStorageSync('userInfo')) : {
-			name:'未知用户',
-			avatar:'/static/missing-face.png',
+	state: {
+		loginState: false,
+		userInfo: uni.getStorageSync('user') ? uni.getStorageSync('user') : {
+			"id": "",
+			"created_at": "",
+			"mini_openid": "",
+			"union_id": "",
+			"edges": {}
 		},
-		cart:uni.getStorageSync('cart') ? JSON.parse(uni.getStorageSync('cart')) : []
+		cart: uni.getStorageSync('cart') ? JSON.parse(uni.getStorageSync('cart')) : [],
+		loginInitFn: []
 	},
-	getters:{},
-	mutations:{
-		userLogin(state,payload){
+	getters: {},
+	mutations: {
+		loginInitFn(state, payload) {
+			state.loginInitFn = [...state.loginInitFn, payload]
+		},
+		userLogin(state, payload) {
 			state.loginState = true
 			state.userInfo = payload
-			uni.setStorageSync('loginState','ok')
-			uni.setStorageSync('userInfo',JSON.stringify(payload))
+			uni.setStorageSync('user', payload)
 		},
-		userLogout(state){
+		userLogout(state) {
 			state.loginState = false
 			state.userInfo = {
-				name:'未知用户',
-				avatar:'/static/missing-face.png',
+				name: '未知用户',
+				avatar: '/static/missing-face.png',
 			}
 		},
 	},
-	actions:{
-		userLoginAction(context,payload){
-			context.commit('userLogin',payload)
+	actions: {
+		userLoginAction(context, payload) {
+			context.commit('userLogin', payload)
 		},
-		userLogoutAction(context){
+		userLogoutAction(context) {
 			context.commit('userLogout')
 			uni.clearStorageSync('loginState')
 			uni.clearStorageSync('userInfo')

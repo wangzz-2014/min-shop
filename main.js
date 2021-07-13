@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App'
 // 引入uView UI 插件仓库
 import uView from 'uview-ui'
+import login from "@/common/login.js"
 Vue.use(uView)
 // 引入moment日期格式化函数
 import Moment from 'moment'
@@ -38,6 +39,9 @@ import store from 'store/index.js'
 
 Vue.config.productionTip = false
 
+// 在http后挂载 login相关
+// import login from "@/common/login.js"
+// Vue.use(login, app)
 
 App.mpType = 'app'
 const app = new Vue({
@@ -51,6 +55,8 @@ Vue.use(httpInterceptor, app)
 // http接口API集中管理引入部分
 import httpApi from '@/common/http.api.js'
 Vue.use(httpApi, app)
+
+Vue.use(login, app)
 
 app.$mount()
 

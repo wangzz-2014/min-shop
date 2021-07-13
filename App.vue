@@ -1,17 +1,17 @@
 <script>
 	export default {
-		
 		onLaunch: function() {
 			console.log('App Launch')
-			uni.login({
-				success: async (res) => {
-				let data = await this.$u.api.login({
-						js_code:res.code
-					})
-				uni.setStorageSync('jwt_data',data.data.jwt_data)
-				uni.setStorageSync('user',data.data.user)
-				}
-			})
+			// uni.login({
+			// 	success: async (res) => {
+			// 	let data = await this.$u.api.login({
+			// 			js_code:res.code
+			// 		})
+			// 	uni.setStorageSync('jwt_data',data.data.jwt_data)
+			// 	uni.setStorageSync('user',data.data.user)
+			// 	}
+			// })
+			this.$login.wxLogin()
 		},
 		onShow: function() {
 			console.log('App Show')
