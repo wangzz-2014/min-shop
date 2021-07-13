@@ -21,6 +21,7 @@ const install = (vue,vm) => {
 			if (store.state.loginState) return fn()
 			store.commit("loginInitFn", fn)
 		},
+		// 登录方法
 		wxLogin: async () => {
 			try {
 				// 获取jscode
@@ -30,11 +31,12 @@ const install = (vue,vm) => {
 				let data = await vm.$u.api.login({
 					js_code: code
 				})
-				uni.setStorageSync('jwt_data', data.data.jwt_data)
+				store.commit('jwtData',data.data.jwt_data)
 				store.commit("userLogin", data.data.user)
+				
 				console.log("登录成功")
 				// uni.setStorageSync('user', data.data.user)
-				store.state.loginInitFn.map(fn => {
+				store.state.loginInitFn.forEach(fn => {
 					try {
 						if (typeof fn == "function") fn()
 					} catch (error) {

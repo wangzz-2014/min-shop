@@ -136,7 +136,6 @@
 			if(options.status == 0 ){
 				this.loadData()
 			}
-			
 		},
 		async onPullDownRefresh() {
 		 	await this.refresh()

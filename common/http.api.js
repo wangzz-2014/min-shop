@@ -2,6 +2,10 @@ const install = (Vue, vm) => {
 	let api = {}
 	//登录
 	api.login = params => vm.$u.post('api/auth/min_chat_login', params)
+	//刷新token
+	api.refreshToken = params => vm.$u.post('api/auth/refresh_token',params)
+	
+	
 	//获取地址列表
 	api.getaddressList = params => vm.$u.get('api/customer/address/list',params)
 	//添加地址
