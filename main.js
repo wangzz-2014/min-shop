@@ -3,6 +3,7 @@ import App from './App'
 // 引入uView UI 插件仓库
 import uView from 'uview-ui'
 import login from "@/common/login.js"
+import request from "@/utils/request.js"
 Vue.use(uView)
 // 引入moment日期格式化函数
 import Moment from 'moment'
