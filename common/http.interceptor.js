@@ -9,7 +9,7 @@ const install = (Vue, vm) => {
 		// // #endif
 		// #ifndef H5
 		// baseUrl: 'http://192.168.3.108:8089', // 拉勾服务器
-		baseUrl: "http://127.0.0.1:8088",
+		baseUrl: "https://api.ahh5.com/go_shop",
 		// baseUrl: 'http://47.115.83.135/api/v2', // 教学服务器
 		// #endif
 		loadingText: '努力加载中~', // 请求loading中的文字提示
@@ -30,6 +30,13 @@ const install = (Vue, vm) => {
 		const jwt_data = uni.getStorageSync("jwt_data")
 		config.header.Authorization = "Bearer " + jwt_data.token
 		config.header.Accept = "application/json"
+		
+		if(config.url.indexOf("?")>-1){
+			config.url += `&`
+		}else{
+			config.url += `?`
+		}
+		config.url += `time=${new Date().getTime()}`
 		// 方式一，存放在vuex的token，假设使用了uView封装的vuex方式
 		// 见：https://uviewui.com/components/globalVariable.html
 		// config.header.token = vm.token;

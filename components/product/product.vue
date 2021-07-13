@@ -7,8 +7,13 @@
 			
 			<view class="desc-box">
 				<text class="title">{{item.spu_name}}</text>
-				<text class="price">￥{{item.show_price}}</text>
+				<view class="desc">
+					<text class="price">￥{{item.show_price}}</text>
+					<text class="sold" v-if="item.sales_num">已售{{item.sales_num }}件</text>
+					<text class="sold" v-else>{{""}}</text>
+				</view>
 			</view>
+			
 		</view>
 	</view>
 </template>
@@ -66,7 +71,7 @@
 		 }
 		 
 		 .desc-box{
-			  width: 100%;
+			 width: 100%;
 			 display: flex;
 			 flex-direction: column;
 			 align-items: flex-start;
@@ -82,6 +87,17 @@
 			.price{
 				font: 32upx;
 				color: #fa436a;
+				line-height: 1;
+			}
+			.desc{
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+			.sold{
+				font-size: 24upx;
+				color: #909399;
 				line-height: 1;
 			}
 		 }

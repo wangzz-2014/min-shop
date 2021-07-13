@@ -32,6 +32,25 @@ const gotoWebUrl = (item) => {
 	}
 }
 
+/**
+ * 返回传值方法封装
+ * @param {*} items 赋值对象
+ * @param {*} method 调用犯法
+ * @param {*} index 返回层级  默认2为上一级
+ */
+export function backSetData(data,key, index = 2) {
+	const uniCurrPage = getCurrentPages() //获取当前页面的页面栈
+    let uniPrevPage = uniCurrPage[uniCurrPage.length - index] //获取上级页面的page对象
+	// #ifndef H5
+	uniPrevPage = uniPrevPage.$vm
+	// #endif
+    if (uniPrevPage) {
+		uniPrevPage.$set(uniPrevPage,key,data)
+        uni.navigateBack({
+            delta: index - 1,
+        })
+    }
+}
 export default {
-	gotoWebUrl
+	gotoWebUrl,
 }

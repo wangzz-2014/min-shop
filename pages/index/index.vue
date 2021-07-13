@@ -4,7 +4,7 @@
 			<m-swiper :swiperList="swiperList"></m-swiper>
 		</view>
 		<view class="search">
-			<search-box></search-box>
+			<search-box/>
 		</view>
 		<!-- 分类 -->
 		<view class="cate-section">

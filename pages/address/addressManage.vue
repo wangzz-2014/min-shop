@@ -69,7 +69,7 @@
 					area:'',
 					detailed:'',
 					// tags:[],
-					is_defaule:false
+					is_default:false
 				},
 				customStyle:{
 					backgroundColor:'#fa436a',
@@ -143,7 +143,7 @@
 				
 			},
 			changeStatus(status){
-				this.addressData.is_defaule = status
+				this.addressData.is_default = status
 			},
 			//提交表单
 			 confirm(){

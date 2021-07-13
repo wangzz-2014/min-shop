@@ -4,9 +4,11 @@
 			<text class="yticon icon-xiatubiao--copy"></text>
 			<text>首页</text>
 		</navigator>
-		<navigator url="/pages/cart/cart" open-type="switchTab" class="p-b-btn">
+		<navigator url="/pages/cart/cart" open-type="switchTab" class="p-b-btn p-badge">
+			<u-badge type="error" show-zero :count="cartCount" offset="[-25,-10]" class="badge"></u-badge>
 			<text class="yticon icon-gouwuche"></text>
 			<text>购物车</text>
+			
 		</navigator>
 		<view class="p-b-btn" :class="{active:favorite}" @click="toFavorite">
 			<text class="yticon icon-shoucang"></text>
@@ -14,6 +16,7 @@
 		</view>
 		
 		<view class="action-btn-group">
+			
 			<button type="primary" class=" action-btn no-border add-cart-btn" @click="addCart">加入购物车</button>
 			<button type="primary" class=" action-btn no-border buy-now-btn" @click="buy">立即购买</button>
 		</view>
@@ -21,22 +24,29 @@
 </template>
 
 <script>
+	import {mapState} from 'vuex'
 	export default {
 		name:"add-cart-buy",
+		computed:{
+			...mapState(['cart'])
+		},
+		props:{
+			cartCount:{
+				type:Number
+			}
+		},
 		data() {
 			return {
 				favorite: true,
+				
 			};
 		},
+		
 		methods:{
 			toFavorite(){
 				this.favorite = !this.favorite
 			},
 			buy(){
-				// console.log('立即购买')
-				// uni.navigateTo({
-				// 	url:'/pages/order/createOrder'
-				// })
 				this.$emit('listenBuy')
 			},
 			addCart(){
@@ -88,6 +98,10 @@
 			font-size: 46upx;
 		}
 	}
+	.p-badge{
+		position: relative;
+	}
+	
 	.action-btn-group{
 		display: flex;
 		height: 76upx;

@@ -1,6 +1,6 @@
 <template>
 	<view class="mp-search-box">
-		<input class="ser-input" type="text" placeholder="输入关键字搜索" />
+		<input class="ser-input" type="text" placeholder="输入关键字搜索" @click="gotoSearch"/>
 	</view>
 </template>
 
@@ -11,6 +11,13 @@
 			return {
 				keyword:""
 			};
+		},
+		methods:{
+			gotoSearch(){
+				uni.navigateTo({
+					url:'/pages/search/search'
+				})
+			}
 		}
 	}
 </script>

@@ -10,7 +10,8 @@ const store = new Vuex.Store({
 		userInfo:uni.getStorageSync('userInfo') ? JSON.parse(uni.getStorageSync('userInfo')) : {
 			name:'未知用户',
 			avatar:'/static/missing-face.png',
-		}
+		},
+		cart:uni.getStorageSync('cart') ? JSON.parse(uni.getStorageSync('cart')) : []
 	},
 	getters:{},
 	mutations:{
@@ -26,7 +27,7 @@ const store = new Vuex.Store({
 				name:'未知用户',
 				avatar:'/static/missing-face.png',
 			}
-		}
+		},
 	},
 	actions:{
 		userLoginAction(context,payload){
