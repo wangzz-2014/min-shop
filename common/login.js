@@ -31,6 +31,7 @@ const install = (vue,vm) => {
 				let data = await vm.$u.api.login({
 					js_code: code
 				})
+				// delete data.data.jwt_data.token
 				store.commit('jwtData',data.data.jwt_data)
 				store.commit("userLogin", data.data.user)
 				
