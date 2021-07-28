@@ -15,6 +15,32 @@ Vue.filter('formatDate', function(value) {
 Vue.filter('formatDateTime',function(value){
 	return Moment(value).format('YYYY-MM-DD HH:mm:ss')
 })
+
+const timerFN =()=>new Promise((r)=>{
+	setTimeout(()=>{
+		r()
+	},10000)
+})
+uni.addInterceptor('request', {
+  // 请求前
+   async invoke (args) {
+	   await timerFN()
+    // 对请求头处理事情
+    args.header = {
+      ...args.header,
+      token: 'xxx'
+    }
+    return args
+  },
+  // 返回值
+  returnValue (e) {
+    // 处理返回结果
+    return e
+  }
+})
+
+
+
 const msg = (title, duration=1500, mask=false, icon='none')=>{
 	//统一提示方便全局修改
 	if(Boolean(title) === false){

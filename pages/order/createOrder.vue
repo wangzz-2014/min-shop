@@ -43,7 +43,7 @@
 		<view class="detail-list">
 			<u-cell-group>
 				<u-cell-item :title-style="titleColor" title="商品金额" :value="(totalPrice/100).toFixed(2)" :value-style="valueColor1" :arrow="false"></u-cell-item>
-				<u-cell-item :title-style="titleColor" title="优惠金额" value="0" :value-style="valueColor" :arrow="false"></u-cell-item>
+				<!-- <u-cell-item :title-style="titleColor" title="优惠金额" value="0" :value-style="valueColor" :arrow="false"></u-cell-item> -->
 				<u-cell-item :title-style="titleColor" title="运费" value="免运费" :value-style="valueColor1" :arrow="false"></u-cell-item>
 				<u-cell-item :title-style="titleColor" title="备注" :border-bottom="false" value="" :value-style="valueColor1" :arrow="false">
 					<u-input :custom-style="customStyle" v-model="mask" type="textarea" height="54" placeholder="请填写备注信息"/>
@@ -206,6 +206,7 @@
 .content{
 	background: #f8f8f8;
 	padding-bottom: 100upx;
+	min-height: calc(100vh - 50px);
 }
 .address-section{
 	padding: 30upx 0upx;

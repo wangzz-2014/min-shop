@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="user-section">
-			<image class="bg" src="/static/user-bg.jpg"/>
+			<image class="bg" src="/static/user-bg.jpeg"/>
 			<view class="user-info-box">
 				<view class="portrait-box">
 					<image class="portrait" :src="userInfo.portrait || '/static/missing-face.png'"/>
@@ -10,21 +10,12 @@
 					<text class="username">{{userInfo.nickname || '游客'}}</text>
 				</view>
 			</view>
-			<view class="vip-card-box">
-				<image class="card-bg" src="/static/vip-card-bg.png"/>
-				<view class="b-btn">立即开通</view>
-				<view class="tit">
-					<text class="yticon icon-iLinkapp-"></text>
-					<text>DCloud会员</text>
-				</view>
-				<text class="e-m">DCloud Union</text>
-				<text class="e-b">开通会员开发无bug 一测就上线</text>
-			</view>
+			
 		</view>
 		
 		<view class="cover-container" >
 			<image class="arc" src="/static/arc.png"/>
-			<view class="tj-sction">
+			<!-- <view class="tj-sction">
 				<view class="tj-item">
 					<text class="num">128.8</text>
 					<text>余额</text>
@@ -37,7 +28,7 @@
 					<text class="num">20</text>
 					<text>积分</text>
 				</view>
-			</view>
+			</view> -->
 			
 			<!-- 订单 -->
 			<view class="order-section">
@@ -59,9 +50,8 @@
 				</view>
 			</view>
 			
-			<!-- 浏览历史 -->
 			<view class="history-section icon">
-				<view class="sec-header">
+				<!-- <view class="sec-header">
 					<text class="yticon icon-lishijilu"></text>
 					<text>浏览历史</text>
 				</view>
@@ -71,12 +61,11 @@
 					<image @click="navTo('/pages/product/product')" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553105186633&di=c121a29beece4e14269948d990f9e720&imgtype=0&src=http%3A%2F%2Fimg004.hc360.cn%2Fm8%2FM04%2FDE%2FDE%2FwKhQplZ-QteEBvsbAAAAADUkobU751.jpg" mode="aspectFill"/>
 					<image @click="navTo('/pages/product/product')" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553105186633&di=c121a29beece4e14269948d990f9e720&imgtype=0&src=http%3A%2F%2Fimg004.hc360.cn%2Fm8%2FM04%2FDE%2FDE%2FwKhQplZ-QteEBvsbAAAAADUkobU751.jpg" mode="aspectFill"/>
 				</scroll-view>
-				<!-- list-cell -->
-				<list-cell icon="icon-iconfontweixin" iconColor="#e07472" title="我的钱包" tips="您的会员还有3天过期"></list-cell>
+				<list-cell icon="icon-iconfontweixin" iconColor="#e07472" title="我的钱包" tips="您的会员还有3天过期"></list-cell> -->
 				<list-cell icon="icon-dizhi" iconColor="#5fcda2" title="地址管理" @eventClick="navTo('/pages/address/address')"></list-cell>
-				<list-cell icon="icon-share" iconColor="#9789f7" title="分享" tips="邀请好友赢10万大礼"></list-cell>
-				<list-cell icon="icon-pinglun-copy" iconColor="#ee883b" title="晒单" tips="晒单抢红包"></list-cell>
-				<list-cell icon="icon-shoucang_xuanzhongzhuangtai" iconColor="#54b4ef" title="我的收藏"></list-cell>
+				<!-- <list-cell icon="icon-share" iconColor="#9789f7" title="分享" tips="邀请好友赢10万大礼"></list-cell> -->
+				<!-- <list-cell icon="icon-pinglun-copy" iconColor="#ee883b" title="晒单" tips="晒单抢红包"></list-cell> -->
+				<!-- <list-cell icon="icon-shoucang_xuanzhongzhuangtai" iconColor="#54b4ef" title="我的收藏"></list-cell> -->
 				<list-cell icon="icon-shezhi1" iconColor="#e07472" title="设置" border="" @eventClick="navTo('/pages/set/set')"></list-cell>
 			</view>
 			
@@ -204,6 +193,7 @@
 	position: relative;
 	background: #f5f5f5;
 	padding-bottom: 20upx;
+	height: calc(100vh - 195px);
 	.arc{
 		position: absolute;
 		left: 0;
@@ -251,7 +241,7 @@
 }
 
 .history-section{
-	padding: 30upx 0 0;
+	// padding: 30upx 0 0;
 	margin-top: 20upx;
 	background: #fff;
 	border-radius: 10upx;

@@ -80,7 +80,7 @@ const pipeNoAuthResponse = async (type,config) => {
 				// 返回当前token
 				return store.state.jwt_data.token
 			}
-			// 相应拦截器
+			// 响应拦截器
 			if(	type===2){
 				// 重发当前请求
 				return axios(config)
@@ -106,7 +106,7 @@ const pipeNoAuthResponse = async (type,config) => {
 					// 返回当前token
 					resolve(axios(store.state.jwt_data.token))
 				}
-				// 相应拦截器
+				// 响应拦截器
 				if(	type===2){
 					// 重发当前请求
 					resolve(axios(config))
@@ -155,14 +155,14 @@ axios.interceptors.response.use(
 // axios.get("/api/order/list").then(res=>{
 // 	console.log(res,12345)
 // })
-setTimeout(() => {
-	axios({
-		url: "/api/order/list",
-		mehtod: "GET",
-	}).then(res => {
-		console.log(res)
-	})
-}, 3000)
+// setTimeout(() => {
+// 	axios({
+// 		url: "/api/order/list",
+// 		mehtod: "GET",
+// 	}).then(res => {
+// 		console.log(res)
+// 	})
+// }, 3000)
 // refreshTokenFn()
 
 export default axios
